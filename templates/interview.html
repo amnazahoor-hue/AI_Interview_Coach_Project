@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Interview</title>
+  <link rel="stylesheet" href="/static/bootstrap-5.3.8-dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body class="background">
+
+<div class="container interview-container mt-5">
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h5 id="progress" data-total="{{ total }}">Question {{ current }} of {{ total }}</h5>
+  </div>
+
+  <div class="card question-box p-4 mb-3">
+    <p id="question">{{ question }}</p>
+  </div>
+
+  <div class="form-floating mb-3">
+    <textarea class="form-control" id="answerBox" style="height: 120px"></textarea>
+    <label for="answerBox">Type your answer here</label>
+  </div>
+
+  <div class="d-flex align-items-center mb-3">
+    <button type="button" class="btn btn-primary me-2" id="submitBtn">Submit Answer</button>
+    <button type="button" class="btn btn-success me-2" id="nextBtn" style="display:none;">Next Question</button>
+    <button type="button" class="btn btn-warning me-2" id="reportBtn" style="display:none;" onclick="window.location='/report'">View Report</button>
+    <div id="spinner" class="spinner-border text-secondary" style="display:none;"></div>
+  </div>
+
+   <div id="feedbackBox" class="card p-3 mt-3" style="display:none;">
+  <p><strong>Score:</strong> <span id="score"></span></p>
+  <p><strong>Strengths:</strong> <span id="strengths"></span></p>
+  <p><strong>Weaknesses:</strong> <span id="weaknesses"></span></p>
+  <p><strong>Ideal Answer:</strong> <span id="ideal_answer"></span></p>
+</div>
+
+</div>
+
+<script src="/static/bootstrap-5.3.8-dist/js/bootstrap.min.js"></script>
+<script src="/static/js/main.js"></script>
+
+
+</body>
+</html>

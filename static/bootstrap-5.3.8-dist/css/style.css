@@ -1,0 +1,15 @@
+.nav-link{
+    color: aliceblue;
+}
+#top{
+    background-color: rgb(56, 56, 99);
+    border-radius: 40px;
+    padding: 7px 7px;
+}
+.col-md-2{
+    border-radius: 40px;
+}
+
+a:hover{
+    background-color: rgb(34, 34, 131);
+}

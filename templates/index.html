@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI-INTERVIEW-COACH</title>
+    <link rel="stylesheet" href="/static/bootstrap-5.3.8-dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body class="background">
+
+<div class="container-1">
+    
+    <div class="setup-screen">
+
+        <h2 class="text-center">AI Interview Coach</h2>
+
+        <form action="/start" method="POST">
+            <div class="mb-3">
+                <label class="form-label fw-bold">Job Role</label>
+                <input type="text" name="job_role" class="form-control"
+                       placeholder="e.g. Frontend Developer" required>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label fw-bold">Experience Level</label>
+                <select name="experience_level" class="form-select" required>
+                    <option value="">Select Level</option>
+                    <option value="Beginner">Beginner</option>
+                    <option value="Mid">Mid-Level</option>
+                    <option value="Senior">Senior</option>
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label fw-bold">Number of Questions</label>
+                <select name="questions" class="form-select">
+                    <option value="3">3</option>
+                    <option value="5">5</option>
+                    <option value="10">10</option>
+                </select>
+            </div>
+
+            <button type="submit" class="btn btn-primary">
+                Start Interview
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+<script src="/static/bootstrap-5.3.8-dist/js/bootstrap.min.js"></script>
+<script src="/static/js/main.js"></script>
+</body>
+</html>

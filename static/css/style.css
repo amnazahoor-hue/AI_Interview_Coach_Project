@@ -1,0 +1,81 @@
+.background{
+    background: rgb(134, 222, 225);
+}
+.setup-screen{
+    background-color: white;
+
+    margin-top: 60px;
+    margin-right: 320px;
+    margin-bottom: 200px;
+    margin-left: 320px;
+    padding-right: 30px;
+    padding-left: 30px;
+    padding-top: 10px;
+    padding-bottom: 25px;
+    border-radius: 50px;
+    box-shadow:0 14px 15px rgba(0,0,0,0.2);
+  
+}
+
+.text-center{
+    margin-bottom: 2rem;
+}
+.btn.btn-primary{
+    margin-top: 1rem;
+    width: 100%;
+}
+.interview-screen{
+    background-color: white;
+
+    margin-top: 70px;
+    margin-right: 320px;
+    margin-bottom: 200px;
+    margin-left: 320px;
+    padding-right: 30px;
+    padding-left: 30px;
+    padding-top: 10px;
+    padding-bottom: 25px;
+    border-radius: 50px;
+    box-shadow:0 14px 15px rgba(0,0,0,0.2);
+
+}
+.spinner-border{
+    margin-top: 1rem;
+    margin-right: 10px;
+    margin-left: 10px;
+}
+.container-3 {
+    width: 100%;
+    max-width: 600px;
+}
+
+.report-screen {
+    background: white;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+}
+
+.score {
+    font-size: 48px;
+    font-weight: bold;
+    color: #4a47a3;
+}
+
+
+
+
+.interview-container {
+    max-width: 700px;
+    margin: auto;
+}
+
+.question-box {
+    background-color: #e3f2fd;
+    border-left: 5px solid #0d6efd;
+}
+
+#feedbackBox .card {
+    background-color: #f1f3f5;
+    border-left: 5px solid #198754;
+}
