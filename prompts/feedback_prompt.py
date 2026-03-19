@@ -11,12 +11,17 @@ Question:
 Answer:
 {answer}
 
-Give response in JSON format:
+IMPORTANT:
+- Return ONLY valid JSON
+- Do NOT include explanation or text outside JSON
+- Do NOT use backticks
+
+Format:
 
 {{
-    "score": number (0-10),
-    "strengths": "What was good",
-    "weaknesses": "What needs improvement",
-    "ideal_answer": "Best possible answer"
+    "score": 0-10,
+    "strengths": "short sentence",
+    "weaknesses": "short sentence",
+    "ideal_answer": "brief ideal answer"
 }}
 """
