@@ -1,9 +1,11 @@
-from flask import Flask, render_template, request, session, redirect, jsonify
+from flask import Flask, render_template, request, session, redirect, jsonify, make_response 
 import os, json, re
 from dotenv import load_dotenv
 from groq import Groq
 from prompts.interviewer import INTERVIEWER_PROMPT
 from prompts.feedback_prompt import FEEDBACK_PROMPT
+from datetime import datetime 
+from weasyprint import HTML
 
 load_dotenv()
 
@@ -17,25 +19,67 @@ if not client:
     raise ValueError("GROQ_API_KEY is missing")
 
 
+#### Calling LLM ####
 def call_llm(system_prompt, messages):
     try:
         response = client.chat.completions.create(
             model="llama-3.1-8b-instant",
             messages=[{"role": "system", "content": system_prompt}, *messages],
             temperature=0.7,
-            max_tokens=500
+            max_tokens=500,
+            timeout=30  # Add timeout
         )
         return response.choices[0].message.content
+    except TimeoutError:
+        print("LLM Timeout Error")
+        return jsonify({
+            "error": "timeout",
+            "feedback": {
+                "score": 0,
+                "strengths": "Unable to evaluate",
+                "weaknesses": "Request timed out",
+                "ideal_answer": "Please try again"
+            }
+        })
     except Exception as e:
-        print("LLM Error:", e)
-        return "Error generating response"
+        error_str = str(e).lower()
+        if "rate" in error_str or "limit" in error_str or "429" in error_str:
+            return jsonify({
+                "error": "rate_limit",
+                "feedback": {
+                    "score": 0,
+                    "strengths": "Unable to evaluate",
+                    "weaknesses": "Rate limit reached",
+                    "ideal_answer": "Please wait a moment"
+                }
+            })
+        elif "connection" in error_str or "network" in error_str:
+            return jsonify({
+                "error": "network",
+                "feedback": {
+                    "score": 0,
+                    "strengths": "Unable to evaluate",
+                    "weaknesses": "Network error",
+                    "ideal_answer": "Check your connection"
+                }
+            })
+        else:
+            return jsonify({
+                "error": "unknown",
+                "feedback": {
+                    "score": 0,
+                    "strengths": "Unable to evaluate",
+                    "weaknesses": "Technical error",
+                    "ideal_answer": "Please try again"
+                }
+            })
 
-
+#### To main page ###
 @app.route('/',  methods=['GET'])
 def index():
     return render_template("index.html")
 
-
+### To Start the session ####
 @app.route('/start', methods=['POST'])
 def start():
     session['job_role'] = request.form.get('job_role')
@@ -49,7 +93,7 @@ def start():
 
     return redirect('/interview')
 
-
+### Interview Page ###
 @app.route('/interview', methods=['GET'])
 def interview():
     if 'job_role' not in session:
@@ -75,6 +119,7 @@ def interview():
         total=session['total_questions']
     )
 
+### Answer ###
 @app.route('/answer', methods=['POST'])
 def answer():
     data = request.get_json()
@@ -176,8 +221,7 @@ def answer():
     session.modified = True
     return jsonify(response_data)
 
-
-
+### Report Page ###
 @app.route('/report')
 def report():
     if 'scores' not in session or len(session['scores']) == 0:
@@ -199,6 +243,44 @@ def report():
         strengths=all_strengths,
         improvements=all_weaknesses
     )
+
+
+
+@app.route('/export-pdf')
+def export_pdf():
+    if 'scores' not in session or len(session['scores']) == 0:
+        return redirect('/')
+    
+    # Get the same data as report page
+    scores = session['scores']
+    report_data = session.get('report_data', [])
+    avg_score = round(sum(scores) / len(scores), 2)
+    all_strengths = " ".join([item['strengths'] for item in report_data])
+    all_weaknesses = " ".join([item['weaknesses'] for item in report_data])
+    
+    # Render HTML template for PDF
+    html = render_template(
+        "pdf_report.html",  # Create this template
+        average=avg_score,
+        report_data=report_data,
+        strengths=all_strengths,
+        improvements=all_weaknesses,
+        date=datetime.now().strftime("%Y-%m-%d %H:%M")
+    )
+    
+    # Generate PDF
+    pdf = HTML(string=html).write_pdf()
+    
+    # Create response
+    response = make_response(pdf)
+    response.headers['Content-Type'] = 'application/pdf'
+    response.headers['Content-Disposition'] = f'attachment; filename=interview_report_{datetime.now().strftime("%Y%m%d")}.pdf'
+    
+    return response
+
+
+
+### To reset the interview ###
 @app.route('/reset')
 def reset():
     session.clear()

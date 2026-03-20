@@ -130,3 +130,30 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
 });
+
+document.getElementById('exportPDF').addEventListener('click', function() {
+    // Get the report content
+    const element = document.querySelector('.report-screen');
+    
+    // Configure PDF options
+    const opt = {
+        margin:        [0.5, 0.5, 0.5, 0.5], // top, right, bottom, left (in inches)
+        filename:     `Interview_Report_${new Date().toISOString().split('T')[0]}.pdf`,
+        image:        { type: 'jpeg', quality: 0.98 },
+        html2canvas:  { scale: 2, letterRendering: true },
+        jsPDF:        { unit: 'in', format: 'a4', orientation: 'portrait' }
+    };
+
+    // Show loading indicator
+    const btn = this;
+    const originalText = btn.innerHTML;
+    btn.innerHTML = '⏳ Generating PDF...';
+    btn.disabled = true;
+
+    // Generate PDF
+    html2pdf().set(opt).from(element).save().then(() => {
+        // Restore button
+        btn.innerHTML = originalText;
+        btn.disabled = false;
+    });
+});
