@@ -1,14 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI-INTERVIEW-COACH</title>
-    <link rel="stylesheet" href="/static/bootstrap-5.3.8-dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/static/css/style.css">
-</head>
-<body class="background">
+{% extends "base.html"  %}
+{% block title %}
+Home
+{% endblock %}
 
+{% block content %}
 <div class="container-1">
     
     <div class="setup-screen">
@@ -54,5 +49,7 @@
 
 <script src="/static/bootstrap-5.3.8-dist/js/bootstrap.min.js"></script>
 <script src="/static/js/main.js"></script>
+
+{% endblock %}
 </body>
 </html>

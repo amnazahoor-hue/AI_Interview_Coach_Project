@@ -1,15 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Interview Report</title>
+{% extends "base.html" %}
+{% block title %}
+REPORT
+{% endblock %}
 
-    <link rel="stylesheet" href="/static/bootstrap-5.3.8-dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/static/css/style.css">
-</head>
 
-<body class="background">
+{% block content %}
 
 <div class="container-3">
   <div class="report-screen">
@@ -94,5 +89,7 @@
 </div>
 
 <script src="/static/bootstrap-5.3.8-dist/js/bootstrap.min.js"></script>
+
+{% endblock %}
 </body>
 </html>
